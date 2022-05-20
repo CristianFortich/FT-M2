@@ -1,0 +1,15 @@
+.input{
+    border-radius: 7px;
+}
+
+.button{
+    border-radius: 7px;
+    margin-left: 5px;
+    border: 2px solid rgb(21, 105, 21);
+    color: rgb(21, 105, 21);
+    background-color: rgb(134, 133, 131);
+}
+
+.mainBox{
+    background-color: black;
+}
