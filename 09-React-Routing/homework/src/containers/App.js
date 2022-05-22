@@ -3,6 +3,9 @@ import React, { useState } from 'react';
 import './App.css';
 import Nav from '../components/Nav.jsx';
 import Cards from '../components/Cards.jsx';
+import About from '../components/About.jsx';
+import Ciudad from '../components/Ciudad.jsx';
+import {Route, Switch} from 'react-router-dom';
 
 const apiKey = '4ae2636d8dfbdc3044bede63951a019b';
 
@@ -13,7 +16,7 @@ function App() {
   }
   function onSearch(ciudad) {
     //Llamado a la API del clima
-    fetch(`http://api.openweathermap.org/data/2.5/weather?q=${ciudad}&appid=${apiKey}`)
+    fetch(`http://api.openweathermap.org/data/2.5/weather?q=${ciudad}&appid=${apiKey}&units=metric`)
       .then(r => r.json())
       .then((recurso) => {
         if(recurso.main !== undefined){
@@ -37,22 +40,27 @@ function App() {
       });
   }
   function onFilter(ciudadId) {
-    let ciudad = cities.filter(c => c.id === parseInt(ciudadId));
-    if(ciudad.length > 0) {
-        return ciudad[0];
-    } else {
-        return null;
-    }
+    let ciudad = cities.find(c=>c.id===parseInt(ciudadId));
+    return ciudad;
   }
   return (
     <div className="App">
       <Nav onSearch={onSearch}/>
-      <div>
-        <Cards
-          cities={cities}
-          onClose={onClose}
+      <Switch>
+        <Route 
+          path='/ciudad/:cityId' 
+          render={ ({match}) => <Ciudad city={onFilter(match.params.cityId)}/>}
         />
-      </div>
+        <Route path='/about'>
+          <About />
+        </Route>
+        <Route path='/'>
+          <Cards
+            cities={cities}
+            onClose={onClose}
+          />
+        </Route>
+      </Switch>
       <hr />
     </div>
   );
